@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydrogène avancé </title>
+
+    <meta property="og:title" content="Hydrogène avancé -Fueling a Zero-Carbon Future  " />
+    <meta property="og:description" content="Hydrogène avancé  - continues to innovate new business opportunities." />
+    <meta property="og:image" content="https://www.zciri.org/logo/org26.jpg" />
+    <meta property="og:url" content="https://www.zciri.org/" />
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --green-dark: #090088;
+            --green-leaf: #7ebeef;
+            --bg-light: #f4f7f4;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background: var(--bg-light); 
+            color: #333; 
+        }
+        
+        /* 1. 顶部导航条 */
+        .navbar { 
+            background-color: var(--green-dark); 
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        
+        .navbar-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 14px 15px; 
+        }
+
+        .nav-logo { 
+            display: flex; 
+            align-items: center; 
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 25px; 
+        }
+        .nav-links { 
+            display: flex; 
+            gap: 20px; 
+            list-style: none; 
+            margin: 0; 
+            padding: 0; 
+        }
+        .nav-links a { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 0.95rem; 
+            font-weight: 500; 
+            white-space: nowrap;
+            transition: color 0.2s; 
+        }
+        .nav-links a:hover { color: var(--green-leaf); }
+
+        /* 2. Banner 图片区 */
+        .banner-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: block;
+        }
+        .banner-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 视频与介绍文本的并排弹性布局 */
+        .banner-content-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1100px;
+            margin: 25px auto 10px auto;
+            padding: 0 15px;
+            align-items: flex-start;
+        }
+        .banner-video-box {
+            flex: 1.2;
+            width: 100%;
+            aspect-ratio: 16 / 9; 
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .banner-video-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .banner-text-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .banner-text-box p {
+            margin: 0 0 12px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #444;
+        }
+        .banner-text-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 📰 新闻跑马灯独立样式组件 */
+        .ad-marquee-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            margin: 15px auto 25px auto !important;
+            overflow: hidden;
+            background-color: #ffffff;
+            border-top: 2px solid var(--green-dark);
+            border-bottom: 1px solid #eee;
+            position: relative;
+            height: 70px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+        }
+        .ad-marquee-content {
+            display: flex;
+            flex-wrap: nowrap;
+            width: max-content;
+            will-change: transform;
+            animation: marquee-scroll 120s linear infinite; 
+            -webkit-animation: marquee-scroll 120s linear infinite;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        @media (hover: hover) {
+            .ad-marquee-content:hover { animation-play-state: paused; }
+        }
+        .news-item {
+            display: flex;
+            align-items: center;
+            padding: 0 35px;
+            height: 70px;
+            text-decoration: none;
+            color: #333;
+            flex-shrink: 0;
+            border-right: 1px solid #f5f5f5;
+            box-sizing: border-box;
+        }
+        .site-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            flex-shrink: 0;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+        .news-text-container { display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        .news-title-row1 {
+            font-size: 13.5px; font-weight: bold; color: #222; margin-bottom: 3px;
+            max-width: 450px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .news-title-row2 { font-size: 11px; color: var(--green-leaf); font-weight: 500; }
+        @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-33.3333%); } }
+        @-webkit-keyframes marquee-scroll { from { -webkit-transform: translateX(0); } to { -webkit-transform: translateX(-33.3333%); } }
+
+        /* 🏛️ 新增：三栏定位与愿景展示区 (Green Border Cards) */
+        .vision-section-title {
+            max-width: 1100px;
+            margin: 10px auto 15px auto;
+            padding: 0 15px;
+            font-size: 1.4rem;
+            color: var(--green-dark);
+            font-weight: bold;
+            text-align: left;
+        }
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto 35px auto;
+            padding: 0 15px;
+        }
+        .vision-card {
+            background: #ffffff;
+            border: 2.5px solid var(--green-leaf);
+            border-radius: 10px;
+            padding: 22px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .vision-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,77,38,0.08);
+        }
+        .vision-card h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.2rem;
+            color: var(--green-dark);
+            font-weight: bold;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 8px;
+        }
+        .vision-card p {
+            margin: 0;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #333;
+            text-align: justify;
+        }
+        .vision-card p strong {
+            color: var(--green-dark);
+        }
+
+        /* 5. 联系我们看板区域 */
+        .main-container { 
+            max-width: 1100px; 
+            margin: 0 auto 50px auto; 
+            padding: 0 15px; 
+        }
+        .poll-card { 
+            background: white; 
+            padding: 30px 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            text-align: center; 
+            border-top: 4px solid var(--green-dark); 
+        }
+
+        .suggestion-box {
+            margin-top: 10px;
+            padding-top: 10px;
+            text-align: left;
+            width: 100%;
+        }
+        .suggestion-box h3 {
+            color: var(--green-dark);
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 表单双栏布局 */
+        .form-row-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 30px;
+            align-items: stretch; 
+        }
+        .form-left-col { display: flex; flex-direction: column; justify-content: space-between; gap: 15px; }
+        .form-right-col { display: flex; flex-direction: column; height: 100%; }
+        .textarea-group { display: flex; flex-direction: column; flex-grow: 1; }
+        .textarea-group .form-control { flex-grow: 1; resize: none; min-height: 110px; }
+
+        .form-group label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #444;
+        }
+        .form-control {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 0.88rem;
+            font-family: inherit;
+            background-color: #fafafa;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--green-dark);
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0,77,38,0.15);
+        }
+
+        .btn-submit {
+            background-color: #439a43;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            margin-top: 15px; 
+        }
+        .btn-submit:hover { background-color: var(--green-dark); }
+
+        .site-footer {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #444;
+            font-size: 0.88rem;
+            line-height: 1.8;
+            text-align: left;
+        }
+        .footer-line-2 { color: #666; }
+
+        /* 📱 手机端适配优化 */
+        @media (max-width: 768px) {
+            .navbar-inner { flex-direction: column; gap: 10px; padding: 12px 10px; justify-content: center; }
+            .nav-container { width: 100%; flex-direction: column; gap: 10px; }
+            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; gap: 10px 15px; }
+            .nav-links a { font-size: 0.85rem; }
+            .banner-content-layout { flex-direction: column; gap: 15px; }
+            
+            /* 手机端愿景陈列变为单列竖排且紧凑 */
+            .vision-grid { grid-template-columns: 1fr; gap: 15px; padding: 0 10px; }
+            .vision-card { padding: 18px 15px; }
+            
+            .poll-card { padding: 20px 10px; }
+            .form-row-grid { grid-template-columns: 1fr; gap: 15px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="nav-logo">
+                <a href="/" style="display: block; line-height: 0;">
+                    <img src="/logo/ah2.png" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
+                </a>
+            </div>
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="index2.html">EN | FR </a></li>
+                    <li><a href="http://zciri.org">Institut zéro carbone</a></li>
+                    <li><a href="contact.html">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+   
+
+   
+
+    <!-- 📰 完美融入：零碳全球动态新闻跑马灯组件 -->
+    <div class="ad-marquee-wrapper">
+      <div class="ad-marquee-content" id="news-container">
+        <span class="news-item" style="color: #666; font-size: 13px;">Loading Zero Carbon news...</span>
+      </div>
+    </div>
+    
+    
+    
+    
+     <div class="banner-content-layout">
+        <div class="banner-video-box">
+           <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115828523534389&bvid=BV1QuiaBAEcP&cid=35153972962&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+          
+        </div>
+        
+        <div class="banner-text-box">
+            <h3>Solutions intelligentes à base d'hydrogène </h3>
+            <p><strong>Hydrogène avancé</strong>  est basé au Canada (il a été créé à l'Université McGill).</p>
+            
+            <p>Nous consacrons plus de 20 ans à la recherche sur les technologies innovantes de l'énergie verte à l'hydrogène..</p>
+            <a>- Membrane électrolytique polymère </a>
+            <a> - Membrane échangeuse d'anions</a>
+            <p> - Électrolyse alcaline</p>
+            
+            <p><strong>Hydrogène avancé</strong>  - Hydrogen Storage System</p>
+            <a> Système de stockage d'hydrogène de type IV de 70 MPa</a>
+            <a> Technologie des transporteurs d'hydrogène organiques liquides LOHC</a>
+            <a> </a>
+        </div>
+    </div>
+    
+    
+    
+    
+  
+
+ 
+
+
+    <div class="main-container">
+        <div class="poll-card">
+            <div class="suggestion-box">
+                <h3><i class="fa-solid fa-comment-dots"></i> Contactez-nous </h3>
+
+                <form id="suggestionForm" onsubmit="submitSuggestion(event)">
+                    <div class="form-row-grid">
+                        
+                        <div class="form-left-col">
+                            <div class="form-group">
+                                <label for="voterName">Votre nom (Optionnel)</label>
+                                <input type="text" id="voterName" class="form-control" placeholder="Votre nom ...">
+                            </div>
+                            
+                            <div class="form-group checkbox-group-wrapper">
+                                <label>Veuillez sélectionner votre domaine d'intérêt:</label>
+                                <div class="checkbox-options" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:5px;">
+                                    <label style="font-weight:normal; font-size:0.9rem;"><input type="checkbox" name="interest" value="PEM"> PEM </label>
+                                    <label style="font-weight:normal; font-size:0.9rem;"><input type="checkbox" name="interest" value="AEM"> AEM</label>
+                                    <label style="font-weight:normal; font-size:0.9rem;"><input type="checkbox" name="interest" value="ALK"> ALK</label>
+                                  
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="voterEmail">Votre adresse e-mail (Optionnel)</label>
+                                <input type="email" id="voterEmail" class="form-control" placeholder="example@domain.com">
+                            </div>
+                        </div>
+
+                        <div class="form-right-col">
+                            <div class="form-group textarea-group">
+                                <label for="suggestionContent">Message (Requis) </label>
+                                <textarea id="suggestionContent" class="form-control" placeholder="Géolocalisation automatique en cours..." required></textarea>
+                            </div>
+                            
+                            <input type="hidden" name="user_ip" id="user_ip" value=" positioning...">
+                            
+                            <button type="submit" class="btn-submit" id="submitBtn"> Soumettre </button>
+                        </div>
+
+                    </div>
+                </form>
+                
+                
+   
+ 
+                
+                <footer class="site-footer">
+                    <style>
+                      .ad-grid-wrapper { width: 100%; background-color: #ffffff; margin: 15px 0 !important; padding: 0 !important; border-top: 1px solid #eee; border-bottom: 1px solid #eee; box-sizing: border-box; }
+                      .ad-container { display: grid; grid-template-columns: repeat(8, 1fr); gap: 0px; width: 100%; box-sizing: border-box; }
+                      .ad-item { display: flex; align-items: center; justify-content: center; height: 50px; background: #ffffff; border-right: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; text-decoration: none; color: #444; font-size: 13px; font-weight: 500; transition: background 0.2s ease; text-align: center; box-sizing: border-box; padding: 5px; overflow: hidden; }
+                      .ad-item:last-child { border-right: none; }
+                      .ad-item:hover { background-color: #f9f9f9; color: #d32f2f; }
+                      .ad-item img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+                      @media (max-width: 768px) {
+                        .ad-container { grid-template-columns: repeat(4, 1fr); }
+                        .ad-item { height: 45px; font-size: 11px; }
+                        .ad-item:nth-child(4n) { border-right: none; }
+                        .ad-item:nth-child(n+5) { border-bottom: none; }
+                      }
+                    </style>
+                    <div class="ad-grid-wrapper">
+                      <div class="ad-container">
+                        <a href="https://1-solar.com/" target="_blank" class="ad-item"><img src="/logo/solar.gif" alt="Solar"> </a>
+                        <a href="https://zciri.org/building.html" target="_blank" class="ad-item"> <img src="/logo/building11.png" alt="Building"> </a>
+                        <a href="https://zciri.org/removal.html" target="_blank" class="ad-item"> <img src="/logo/carbon1.png" alt="Carbon"> </a>
+                        <a href="https://zciri.org/energy.html" target="_blank" class="ad-item"> <img src="/logo/green22.png" alt="Green"> </a>
+                        <a href="http://www.ah2.ca" target="_blank" class="ad-item"> <img src="/logo/ah2.png" alt="H2"> </a>
+                        <a href="https://puro.earth/" target="_blank" class="ad-item"> <img src="/logo/puro.png" alt="Puro"> </a>
+                        <a href="contact.html" target="_blank" class="ad-item">Contact us </a>
+                        <a href="https://www.zciri.org/" target="_blank" class="ad-item"> <img src="/logo/zero.png" alt="Zero Carbon"> </a>
+                      </div>
+                    </div>
+
+                    <div class="footer-line-2">
+                          <p><strong> Hydrogène avancé </strong></p> 
+                    </div>
+                    <div class="footer-line-2">
+                       Tel:+1 604 721 7215 &nbsp;|&nbsp; Email：ah2@zciri.org
+                    </div>
+                    <div class="footer-line-2">
+                        113260 Delf Place, Richmond, BC, V6V 2A2  
+                    </div>
+                </footer>
+            </div>
+        </div>  
+    </div>
+
+    <!-- 引入 EmailJS 官方 SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script type="text/javascript">
+        // 1. 初始化 EmailJS
+        (function() {
+            emailjs.init("RucjA1LIwqCUY5kbc"); 
+        })();
+
+        // 2. 双协议并发融合定位函数
+        function getIpAndCity() {
+            let ipv4Address = "获取中或无公网IPv4";
+            fetch('https://api4.ipify.org?format=json')
+                .then(r => r.json())
+                .then(d => { if(d && d.ip) ipv4Address = d.ip; })
+                .catch(e => console.log("纯IPv4接口受阻: ", e));
+
+            fetch('https://ipapi.co/json/')
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.ip) {
+                        const country = data.country_name || '';
+                        const region = data.region || '';
+                        const city = data.city || '';
+                        const locationDetails = `(${country} ${region} ${city})`.replace(/\s+/g, ' ');
+                        if (data.ip.includes(':')) {
+                            document.getElementById('user_ip').value = `IPv4: ${ipv4Address} | IPv6: ${data.ip} ${locationDetails}`;
+                        } else {
+                            document.getElementById('user_ip').value = `IPv4: ${data.ip} ${locationDetails}`;
+                        }
+                    } else { throw new Error('Data empty'); }
+                })
+                .catch(err => {
+                    fetch('https://ip.ws.126.net/ipquery')
+                        .then(res => res.text())
+                        .then(text => {
+                            const cityMatch = text.match(/city\s*:\s*"([^"]+)"/);
+                            const provinceMatch = text.match(/province\s*:\s*"([^"]+)"/);
+                            let area = "";
+                            if(provinceMatch) area += provinceMatch[1] + " ";
+                            if(cityMatch) area += cityMatch[1];
+                            document.getElementById('user_ip').value = `IPv4: ${ipv4Address} (${area || '中国本地网络'})`;
+                        })
+                        .catch(e => { document.getElementById('user_ip').value = `IPv4: ${ipv4Address}`; });
+                });
+        }
+        getIpAndCity();
+
+        // 3. 动态抓取 Google News 写入跑马灯
+        async function fetchAllNews() {
+            const sources = [
+                { name: 'Zero Carbon Energy', url: 'https://news.google.com/rss/search?q=Zero+Carbon+Energy&hl=en-CA&gl=CA&ceid=CA:en' },
+                { name: 'Zero Carbon Building', url: 'https://news.google.com/rss/search?q=Zero+Carbon+Building&hl=en-CA&gl=CA&ceid=CA:en' },
+                { name: 'Carbon Capture', url: 'https://news.google.com/rss/search?q=Carbon+Capture+Technology&hl=en-CA&gl=CA&ceid=CA:en' },
+                { name: 'Carbon Tariff', url: 'https://news.google.com/rss/search?q=Carbon+Border+Adjustment+Mechanism&hl=en-CA&gl=CA&ceid=CA:en' }
+            ];
+
+            const fetchPromises = sources.map(async (source) => {
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(source.url)}`;
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    if (data.status === 'ok') {
+                        let sourceHtml = '';
+                        data.items.slice(0, 4).forEach(item => {
+                            let domain = 'google.com';
+                            try { const urlObj = new URL(item.link); domain = urlObj.hostname.replace('news.google.com', 'google.com'); } catch(e) {}
+                            const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+
+                            let cleanTitle = item.title;
+                            if (cleanTitle.includes(' - ')) {
+                                const parts = cleanTitle.split(' - ');
+                                if (parts.length > 1) parts.pop(); 
+                                cleanTitle = parts.join(' - ');
+                            }
+                            const shortDate = item.pubDate ? item.pubDate.split(' ')[0] : '';
+
+                            sourceHtml += `
+                                <a href="${item.link}" target="_blank" class="news-item">
+                                    <img src="${faviconUrl}" class="site-icon" loading="lazy" onerror="this.src='https://www.google.com/s2/favicons?sz=64&domain=google.com'">
+                                    <div class="news-text-container">
+                                        <div class="news-title-row1" title="${item.title}">${cleanTitle}</div>
+                                        <div class="news-title-row2">【${source.name}】 ${shortDate}</div>
+                                    </div>
+                                </a>`;
+                        });
+                        return sourceHtml;
+                    }
+                } catch (e) { return ''; }
+            });
+
+            const results = await Promise.all(fetchPromises);
+            const allNewsHtml = results.join('');
+            const container = document.getElementById('news-container');
+            if (allNewsHtml) {
+                container.innerHTML = allNewsHtml + allNewsHtml + allNewsHtml;
+                void container.offsetWidth;
+            } else {
+                container.innerHTML = '<span class="news-item" style="color:#999; font-size:13px;">暂无最新动态，请稍后再试</span>';
+            }
+        }
+
+        if (document.readyState === 'complete') { fetchAllNews(); } 
+        else { window.addEventListener('load', fetchAllNews); }
+
+        // 4. 表单提交并发信
+        function submitSuggestion(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const originalBtnText = btn.innerText;
+            btn.innerText = 'Sending ...';
+            btn.disabled = true;
+
+            const voterName = document.getElementById('voterName').value;
+            const voterEmail = document.getElementById('voterEmail').value;
+            const content = document.getElementById('suggestionContent').value;
+            const userIp = document.getElementById('user_ip').value; 
+
+            const interests = [];
+            document.querySelectorAll('input[name="interest"]:checked').forEach((checkbox) => { interests.push(checkbox.value); });
+
+            const templateParams = {
+                voterName: voterName || '未提供',
+                voterEmail: voterEmail || '未提供',
+                interests: interests.length > 0 ? interests.join(', ') : '未选择任何选项',
+                message: content,
+                user_ip: userIp || '未知位置' 
+            };
+
+            emailjs.send('service_7rq58rb', 'template_rvhsvyf', templateParams)
+                .then(function(response) {
+                    alert('Successfully sent to: Zero Carbon Industry Research Institute (mail@zciri.org)');
+                    document.getElementById('suggestionForm').reset();
+                    getIpAndCity();
+                    btn.innerText = originalBtnText;
+                    btn.disabled = false;
+                }, function(error) {
+                    alert('Fail ，check network,错误信息: ' + JSON.stringify(error));
+                    btn.innerText = originalBtnText;
+                    btn.disabled = false;
+                });
+        }
+    </script>
+</body>
+
+</html>
